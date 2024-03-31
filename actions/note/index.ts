@@ -128,7 +128,7 @@ export const getNotesByStatus = async (status: GetNotesByStatusType) => {
  * @param {string} id - The unique identifier of the note.
  * @param {string} title - The new title for the note.
  * @param {string} [content] - The new content for the note.
- * @returns {Promise<NextResponse>} A promise that resolves to an ApiResponse object containing the updated note or an error response.
+ * @returns A promise that resolves to an ApiResponse object containing the updated note or an error response.
  */
 export const updateNoteByNoteId = async (
   id: string,

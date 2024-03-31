@@ -30,7 +30,6 @@ const handler = NextAuth({
           session.user.id = user.id;
         }
       }
-      console.log(session);
 
       return session;
     },

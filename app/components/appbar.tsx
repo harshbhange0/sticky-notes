@@ -7,7 +7,8 @@ export default function AppBar() {
   const { data: session, status } = useSession();
 
   return (
-    <div className="flex justify-end items-center px-10 py-2 border">
+    <nav className="flex justify-end items-center px-10 py-2 border">
+    
       {session && session.user.email ? (
         <div className="dropdown  dropdown-end">
           <div tabIndex={0} role="button" className="">
@@ -36,7 +37,7 @@ export default function AppBar() {
       ) : (
         <LoginOptions />
       )}
-    </div>
+    </nav>
   );
 }
 
