@@ -1,15 +1,11 @@
 import { db } from "@/lib/db";
-import { Ruthie } from "next/font/google";
 
 export interface inputData {
   email: string;
   name?: string;
   image?: string;
 }
-/**
- * this function use to create user  data in database.
- * @link{inputData}
- */
+
 
 export const CreateUser = async (data: inputData) => {
   try {
@@ -48,7 +44,6 @@ export const FindUserByEmail = async (data: inputData) => {
 
 /**
  * this function use to find  user by id in database.
- * @link{string}
  */
 export const FindUserById = async (id: string) => {
   try {

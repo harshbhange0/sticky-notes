@@ -1,32 +1,31 @@
-import { ApiResponse, CreateNotes } from "@/actions/note";
-import { NoteSchema } from "@/types";
-import { NextRequest, NextResponse } from "next/server";
+import { ApiResponse, createNotes } from "@/actions/note";
+import { NotesInputPropsSchema } from "@/types";
+import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const input = NoteSchema.safeParse(await req.json());
+  const input = NotesInputPropsSchema.safeParse(await req.json());
   if (!input.success) {
     return ApiResponse({
-      type: "error",
+      type: "api",
+      data: null,
       message: input.error,
-      data: "null",
       code: 400,
     });
   }
   try {
-    const note = await CreateNotes(input.data);
+    const note = await createNotes(input.data);
     return ApiResponse({
-      type: "success",
-      message: "Note Created Successfully!",
+      type: "api",
       data: note,
+      message: "Note created",
       code: 200,
     });
-    
-  } catch (error) {
-        return ApiResponse({
-          type: "success",
-          message: "Unable Created Note ",
-          data: error,
-          code: 200,
-        });
+  } catch (error: any) {
+    console.log(error);
+    return ApiResponse({
+      type: "api",
+      message: error.message ? error.message : error,
+      code: 500,
+    });
   }
 }
