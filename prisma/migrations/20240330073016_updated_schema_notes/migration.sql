@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Notes" ALTER COLUMN "flag" DROP NOT NULL;
