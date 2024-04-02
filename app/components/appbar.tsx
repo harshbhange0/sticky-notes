@@ -1,11 +1,15 @@
 "use client";
+import { noteAtom } from "@/store/atoms";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
+import { useRecoilValue } from "recoil";
 
 export default function AppBar() {
   const { data: session, status } = useSession();
-
+  const notes = useRecoilValue(noteAtom);
+  useEffect(() => {}, [notes]);
+  console.log("rerender");
   return (
     <nav className="flex justify-end items-center px-10 py-2 border">
       {session && session.user.email ? (
