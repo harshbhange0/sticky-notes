@@ -9,8 +9,11 @@ import { z } from "zod";
  */
 export const NotesInputPropsSchema = z.object({
   title: z.string(),
-  userId: z.string(),
   content: z.string(),
+  userId: z.string().optional(),
+});
+export const updateFlag = z.object({
+  flag: z.enum(["Public", "Archived", "Trashed"]),
 });
 export interface NoteType {
   id?: string;
@@ -19,12 +22,13 @@ export interface NoteType {
   createdAt?: Date;
   updatedAt?: Date;
   userId?: string | null;
+  flag?: NoteStatusType;
 }
 export type NotesType = NoteType[] | [];
 
 export type NotesInputProps = z.infer<typeof NotesInputPropsSchema>;
 export type GetNotesType = "userId" | "id";
-export type NoteStatusType = "Public" | "Archived" | "Trashed";
+export type NoteStatusType = "Public" | "Archived" | "Trashed" | null;
 export type GetNotesByStatusType = NoteStatusType;
 export interface ApiResponseType {
   data?: any;

@@ -5,12 +5,13 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-export const StoreContext = createContext<any>(undefined);
+export const StoreContext = createContext<any>(null);
 
 export function NotesContextProvider({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const { data: session, status } = useSession();
+  const [run, setRun] = useState(0);
   const [notes, setNots] = useState<NotesType>([]);
 
   const getUserNotes = async () => {
@@ -36,10 +37,12 @@ export function NotesContextProvider({
 
   useEffect(() => {
     getUserNotes();
-  }, [status]);
+  }, [status, run]);
 
   return (
-    <StoreContext.Provider value={{ notes }}>{children}</StoreContext.Provider>
+    <StoreContext.Provider value={{ notes, setRun }}>
+      {children}
+    </StoreContext.Provider>
   );
 }
 export const useNoteContext = () => {

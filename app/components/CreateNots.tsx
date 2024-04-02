@@ -67,7 +67,7 @@ export default function CreateNots() {
           <CiSaveDown2 className="mx-auto text-xl text-green-500 hover:text-green-600 transition" />
         </button>
         <button onClick={cancel}>
-          <MdCancelPresentation className="mx-auto text-xl text-gray-300 hover:text-green-600 transition" />
+          <MdCancelPresentation className="mx-auto text-xl text-gray-300 hover:text-gray-600 transition" />
         </button>
       </div>
     </div>

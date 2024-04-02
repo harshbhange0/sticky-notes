@@ -8,7 +8,7 @@ export default function Home() {
   const { notes } = useNoteContext();
   return (
     <>
-      <div className="flex flex-wrap justify-start px-3 gap-3 mt-10">
+      <div className="flex flex-wrap justify-start px-3 gap-3 mt-10 mx-auto">
         {status == "authenticated" ? (
           notes.length < 0 ? (
             <Notes note={{ title: "No Note found", content: "" }} />
