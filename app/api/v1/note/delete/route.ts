@@ -1,30 +1,25 @@
-import { ApiResponse, deleteNoteByNoteId } from "@/actions/note";
+import { ApiResponse, getParamValue } from "@/actions/note";
+import { db } from "@/lib/db";
 import { NextRequest } from "next/server";
 
 export async function DELETE(req: NextRequest) {
-  try {
-    const id = await req.nextUrl.searchParams.get("id");
-    if (id) {
-      const deletedNote = await deleteNoteByNoteId(id);
-      if (!deletedNote) {
+  const id = await getParamValue("id",req);
+  if (id) {
+    try {
+      const deleteNots = await db.notes.delete({ where: { id } });
+      if (deleteNots.id) {
         return ApiResponse({
           type: "api",
-          data: null,
-          message: `unable to delete Note with id: ${id}`,
-          code: 404,
+          message: "unable to delete Note With Id:" + id,
         });
       }
+    } catch (error) {
+      console.log({ error: "api/delete/route.ts:17:1" });
       return ApiResponse({
         type: "api",
-        data: deletedNote,
-        code: 201,
+        message: "something went wrong",
+        data: "check directory => /api/delete/route.ts:17:1",
       });
     }
-  } catch (error: any) {
-    return ApiResponse({
-      type: "api",
-      message: error.message ? error.message : error,
-      code: 500,
-    });
   }
 }

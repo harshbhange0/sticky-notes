@@ -1,11 +1,11 @@
 import { db } from "@/lib/db";
+import toast from "react-hot-toast";
 
 export interface inputData {
   email: string;
   name?: string;
   image?: string;
 }
-
 
 export const CreateUser = async (data: inputData) => {
   try {
@@ -18,11 +18,14 @@ export const CreateUser = async (data: inputData) => {
           image: data.image,
         },
       });
+     
       return user;
     }
     return exUser;
   } catch (error) {
     console.log(error);
+    toast.error("Unable to sign in user");
+
     return false;
   }
 };

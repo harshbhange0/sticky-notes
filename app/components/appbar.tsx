@@ -8,7 +8,6 @@ export default function AppBar() {
 
   return (
     <nav className="flex justify-end items-center px-10 py-2 border">
-    
       {session && session.user.email ? (
         <div className="dropdown  dropdown-end">
           <div tabIndex={0} role="button" className="">
@@ -53,7 +52,7 @@ export const Avatar = ({ size = 32 }: { size?: number }) => {
   ) : (
     session && (
       <div className="avatar">
-        <div className={`w-[${size}px] rounded-full`}>
+        <div className={`w-[${size}px] h- rounded-full`}>
           <Image
             width={size}
             height={size}
@@ -69,8 +68,8 @@ export const Avatar = ({ size = 32 }: { size?: number }) => {
 const LoginOptions = () => {
   const { data: session, status } = useSession();
   return status == "loading" ? (
-    <div className="w-9 flex items-center justify-center rounded-full">
-      <span className="loading loading-ring loading-md"></span>
+    <div className="w-[32px] h-[32px] flex items-center justify-center rounded-full">
+      <span className="loading loading-ring loading-lg"></span>
     </div>
   ) : session && session.user?.email ? (
     <button onClick={() => signOut()}>Sign Out</button>

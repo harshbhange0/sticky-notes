@@ -1,18 +1,26 @@
-
-
-import AppBar from "./components/appbar";
-import Sidebar from "./components/sidebar";
-
+"use client";
+import { useSession } from "next-auth/react";
+import { useNoteContext } from "./context";
+import Notes from "./components/Notes";
+import { NoteType } from "@/types";
 export default function Home() {
-
-
+  const { status } = useSession();
+  const { notes } = useNoteContext();
   return (
     <>
-      <AppBar />
-      <section className="w-full flex flex-col sm:flex-row min-h-[calc(100vh-57px)]">
-        <Sidebar className={" hidden sm:flex sm:basis-[30%]"} />
-        <main></main>
-      </section>
+      <div className="flex flex-wrap justify-start px-3 gap-3 mt-10">
+        {status == "authenticated" ? (
+          notes.length < 0 ? (
+            <Notes note={{ title: "No Note found", content: "" }} />
+          ) : (
+            notes.map((note: NoteType) => {
+              return <Notes note={note} key={note.id} />;
+            })
+          )
+        ) : (
+          "unAuth"
+        )}
+      </div>
     </>
   );
 }

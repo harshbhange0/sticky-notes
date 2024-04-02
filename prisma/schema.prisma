@@ -19,12 +19,16 @@ model Notes {
   id         String   @id @default(cuid())
   title      String
   content    String
-  isPublic  Boolean? @default(false)
-  isArchived Boolean? @default(false)
-  isTrash    Boolean? @default(false)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  flag       String?
+  flag       flag
   User       User?    @relation(fields: [userId], references: [id])
   userId     String?
+}
+
+enum flag {
+  Null
+  Archived
+  Public
+  Trashed
 }

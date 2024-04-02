@@ -1,35 +1,43 @@
-import { ApiResponse, getNotes } from "@/actions/note";
+import { ApiResponse, getParamValue, isUser } from "@/actions/note";
+import { db } from "@/lib/db";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
-    const getBy = await req.nextUrl.searchParams.get("by");
-    if (getBy == "userId" || getBy == "id") {
-      const id = await req.nextUrl.searchParams.get(getBy);
-      if (id) {
-        const res = await getNotes(id, getBy);
-        return ApiResponse({ type: "api", data: res, code: 200 });
+    const id = await getParamValue("userId", req);
+    if (id) {
+      const user = await isUser(id);
+      if (!user) {
+        return ApiResponse({
+          type: "api",
+          message: "user not Found",
+        });
+      }
+      const notes = await db.notes.findMany({
+        where: {
+          userId: id,
+        },
+      });
+      if (notes.length < 0) {
+        return ApiResponse({
+          type: "api",
+          message: "No Notes found for this User.",
+          code: 204,
+        });
       }
       return ApiResponse({
         type: "api",
-        message: {
-          errorIn: `unvalued request: /${await req.nextUrl.searchParams.toString().split("&")[1]} `,
-          expected: " id|userId",
-        },
-        code: 400,
+        data: notes,
+        code: 200,
       });
     }
+  } catch (error) {
+    console.log({ error: "api/get/route.ts:33:1" });
     return ApiResponse({
       type: "api",
-      message: `unvalued request: ${getBy}`,
-      code: 400,
-    });
-  } catch (error: any) {
-    // console.log(error);
-    return ApiResponse({
-      type: "api",
-      message: error.message ? error.message : error,
-      code: 500,
+      message: "error",
+      data: error,
+      code: 404,
     });
   }
 }
