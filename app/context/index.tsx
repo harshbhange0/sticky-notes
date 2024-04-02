@@ -13,6 +13,8 @@ export function NotesContextProvider({
   const { data: session, status } = useSession();
   const [run, setRun] = useState(0);
   const [notes, setNots] = useState<NotesType>([]);
+  const [flagNote, setFlagNote] = useState<NotesType>([]);
+  const [flag, setFlag] = useState("");
 
   const getUserNotes = async () => {
     try {
@@ -35,12 +37,30 @@ export function NotesContextProvider({
     }
   };
 
-  useEffect(() => {
-    getUserNotes();
-  }, [status, run]);
+  const getNoteByFlag = async () => {
+    try {
+      const res = await axios.get(
+        `/api/v1/note/get/flag?userId=${session?.user.id}&flag=${flag}`
+      );
+      if (res.data.data) {
+        setFlagNote(res.data.data);
+      }
+      errorToast("No Note With This Flag Found!");
+    } catch (error) {}
+  };
 
   return (
-    <StoreContext.Provider value={{ notes, setRun }}>
+    <StoreContext.Provider
+      value={{
+        notes,
+        setRun,
+        run,
+        setFlag,
+        getNoteByFlag,
+        flagNote,
+        getUserNotes,
+      }}
+    >
       {children}
     </StoreContext.Provider>
   );

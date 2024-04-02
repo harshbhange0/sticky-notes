@@ -3,9 +3,20 @@ import { useSession } from "next-auth/react";
 import { useNoteContext } from "./context";
 import Notes from "./components/Notes";
 import { NoteType } from "@/types";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 export default function Home() {
   const { status } = useSession();
-  const { notes } = useNoteContext();
+  const { notes, run } = useNoteContext();
+  const { getUserNotes } = useNoteContext();
+  const router = useRouter();
+  useEffect(() => {
+    console.log("refresh");
+    router.refresh();
+    if (status == "authenticated") {
+      getUserNotes();
+    }
+  }, []);
   return (
     <>
       <div className="flex flex-wrap justify-start px-3 gap-3 mt-10 mx-auto">

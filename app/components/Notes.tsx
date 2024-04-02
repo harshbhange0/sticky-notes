@@ -29,7 +29,7 @@ export default function Notes({ note }: { note: NoteType }) {
     e.preventDefault();
     try {
       setFlag((prevFlag) => {
-        const newFlag = flag === "Trashed" ? "Trashed" : "Archived";
+        const newFlag = flag === "Trashed" ? "Archived" : "Trashed";
         const res = axios
           .put(`/api/v1/note/update/flag?id=${note.id}&flag-type=${newFlag}`, {
             flag: newFlag,
@@ -68,7 +68,7 @@ export default function Notes({ note }: { note: NoteType }) {
             >
               <button className="btn btn-sm btn-circle btn-ghost ">✕</button>
             </div>
-            <div className=" absolute left-10 bottom-2 w-auto flex items-center gap-5 ">
+            <div className=" absolute left-10 bottom-1 w-auto flex items-center gap-5 ">
               <div className="tooltip" data-tip="Save Note">
                 <button
                   className="btn btn-sm btn-circle btn-ghost"
