@@ -8,7 +8,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import Notes from "./components/Notes";
 import { useRerender } from "@/store/hooks";
 
-export default function Home() {
+export default function Home(): React.ReactElement{
   const { status, data: session } = useSession();
   const [notes, setNotes] = useRecoilState(noteAtom);
   const [loading, setLoading] = useRecoilState(loadingAtom);

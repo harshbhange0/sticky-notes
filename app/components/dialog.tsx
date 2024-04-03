@@ -16,7 +16,7 @@ interface dialogProps extends NoteType {
   onUpdate: any;
 }
 
-export default function Dialog({ note }: { note: dialogProps }) {
+export default function Dialog({ note }: { note: dialogProps }): React.ReactElement {
   const [run, setRun] = useRecoilState(runAtom);
 
   const changeFlag = async (flag: NoteStatusType) => {

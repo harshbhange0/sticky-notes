@@ -8,11 +8,15 @@ import { useRecoilState } from "recoil";
 import Notes from "@/app/components/Notes";
 import { useRerender } from "@/store/hooks";
 
-export default function page({ params }: { params: { slug: string } }) {
+export default function page({
+  params,
+}: {
+  params: { slug: string };
+}): React.ReactElement {
   const { status, data: session } = useSession();
   const [notes, setNotes] = useRecoilState(noteAtom);
   const run = useRerender();
-  const getNotes = async () => {
+  const getNotesByFlag = async () => {
     try {
       if (session?.user && params.slug) {
         const res = await axios.get(
@@ -28,7 +32,7 @@ export default function page({ params }: { params: { slug: string } }) {
   };
 
   useEffect(() => {
-    getNotes();
+    getNotesByFlag();
   }, [status, run]);
 
   return (

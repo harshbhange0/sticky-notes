@@ -9,7 +9,7 @@ import { CiSaveDown2 } from "react-icons/ci";
 import { MdCancelPresentation } from "react-icons/md";
 import { useRecoilState } from "recoil";
 
-export default function CreateNots() {
+export default function CreateNots(): React.ReactElement {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [note, setNote] = useState<NoteType>({ title: "", content: "" });
