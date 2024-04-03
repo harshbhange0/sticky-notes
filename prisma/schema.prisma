@@ -27,8 +27,7 @@ model Notes {
 }
 
 enum flag {
-  Null
-  Archived
+ Archived
   Public
   Trashed
 }

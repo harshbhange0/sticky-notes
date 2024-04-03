@@ -1,10 +1,6 @@
 import { db } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
-import {
-  ApiResponseType,
-  NotesInputProps,
-
-} from "@/types";
+import { ApiResponseType, NotesInputProps } from "@/types";
 
 /**
  * Creates an API response object for the client.
@@ -18,7 +14,7 @@ import {
  * @returns {NextResponse|ErrorConstructor} The response object with the specified data, message, and status code.
  */
 export const ApiResponse = ({
-  data,
+  data = null,
   message,
   code,
   type = "api",
@@ -57,7 +53,7 @@ export const createNotes = async (data: NotesInputProps) => {
   }
 };
 
-export const isUser = async(id: string)=> {
+export const isUser = async (id: string) => {
   if (id) {
     const user = await db.user.findUnique({ where: { id } });
     if (!user) {

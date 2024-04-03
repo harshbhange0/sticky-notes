@@ -10,24 +10,28 @@ export async function GET(req: NextRequest) {
       if (!user) {
         return ApiResponse({
           type: "api",
-          message: "user not Found",
+          data: "unAble to find user With this id",
+          message: false,
         });
       }
       const notes = await db.notes.findMany({
         where: {
           userId: id,
+          flag: "Public" || "Null",
         },
       });
       if (notes.length < 0) {
         return ApiResponse({
           type: "api",
-          message: "No Notes found for this User.",
+          message: false,
+          data: "No Public Note Found For This User.",
           code: 204,
         });
       }
       return ApiResponse({
         type: "api",
         data: notes,
+        message: true,
         code: 200,
       });
     }
@@ -35,7 +39,7 @@ export async function GET(req: NextRequest) {
     console.log({ error: "api/get/route.ts:33:1" });
     return ApiResponse({
       type: "api",
-      message: "error",
+      message: false,
       data: error,
       code: 404,
     });

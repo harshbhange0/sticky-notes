@@ -1,15 +1,11 @@
 "use client";
-import { noteAtom } from "@/store/atoms";
+
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import React, { useEffect } from "react";
-import { useRecoilValue } from "recoil";
+import React from "react";
 
 export default function AppBar() {
   const { data: session, status } = useSession();
-  const notes = useRecoilValue(noteAtom);
-  useEffect(() => {}, [notes]);
-  console.log("rerender");
   return (
     <nav className="flex justify-end items-center px-10 py-2 border">
       {session && session.user.email ? (
@@ -50,7 +46,7 @@ export default function AppBar() {
 export const Avatar = ({ size = 32 }: { size?: number }) => {
   const { data: session, status } = useSession();
   return status == "loading" ? (
-    <div className="w-9 flex items-center justify-center rounded-full">
+    <div className="w-[32px] h-[32px] flex items-center justify-center rounded-full">
       <span className="loading loading-ring loading-md"></span>
     </div>
   ) : (

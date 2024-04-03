@@ -3,51 +3,34 @@ import { db } from "@/lib/db";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
+  const flag = await getParamValue("flag", req);
+  const userId = await getParamValue("userId", req);
   try {
-    const id = await getParamValue("userId", req);
-    const flag = await getParamValue("flag", req);
-
-    if (id) {
-      const user = await isUser(id);
-      if (!user) {
-        return ApiResponse({
-          type: "api",
-          message: "user not Found",
-        });
-      }
-      if (flag == "Public" || flag == "Archived") {
-        const notes = await db.notes.findMany({
-          where: {
-            userId: id,
-            flag,
-          },
-        });
-        if (notes.length < 0) {
-          return ApiResponse({
-            type: "api",
-            message: "No Notes found for this User.",
-            code: 204,
-          });
-        }
-
-        return ApiResponse({
-          type: "api",
-          data: notes,
-          code: 200,
-        });
-      }
+    if ((userId && flag == "Archived") || flag == "Trashed") {
+      const notesByFlag = await db.notes.findMany({
+        where: {
+          userId,
+          flag,
+        },
+      });
       return ApiResponse({
         type: "api",
-        data: null,
-        message: "unvalued Query",
+        message: "note Found ",
+        data: notesByFlag,
         code: 200,
       });
     }
-  } catch (error) {
-    console.log({ error: "api/get/route.ts:33:1" });
     return ApiResponse({
       type: "api",
-      message: "error",
+      message: "error in query" + flag,
+      data: [],
+      code: 404,
+    });
+  } catch (error) {
+    console.log({ errorLine: "get/flag/route.ts:32:15", error });
+    return ApiResponse({
+      type: "api",
+      message: "server error " + flag,
       data: error,
       code: 404,
     });

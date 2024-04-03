@@ -1,17 +1,19 @@
 "use client";
 import { errorToast, successToast } from "@/helpers/helper";
+import { runAtom } from "@/store/atoms";
 import { NoteType } from "@/types";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { MouseEvent, useState } from "react";
 import { CiSaveDown2 } from "react-icons/ci";
 import { MdCancelPresentation } from "react-icons/md";
+import { useRecoilState } from "recoil";
 
 export default function CreateNots() {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [note, setNote] = useState<NoteType>({ title: "", content: "" });
-
+  const [run, setRun] = useRecoilState(runAtom);
   const addNotes = async (e: MouseEvent) => {
     try {
       if (!session?.user.id) {
@@ -26,6 +28,7 @@ export default function CreateNots() {
       });
       if (res.data.message) {
         successToast(res.data.message);
+        setRun(!run);
       }
       cancel(e);
     } catch (error) {

@@ -1,35 +1,29 @@
 "use client";
-import { loadingAtom, noteAtom } from "@/store/atoms";
+import { noteAtom } from "@/store/atoms";
 import { NoteType } from "@/types";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import Notes from "./components/Notes";
+import { useRecoilState } from "recoil";
+import Notes from "@/app/components/Notes";
 import { useRerender } from "@/store/hooks";
 
-export default function Home() {
+export default function page({ params }: { params: { slug: string } }) {
   const { status, data: session } = useSession();
   const [notes, setNotes] = useRecoilState(noteAtom);
-  const [loading, setLoading] = useRecoilState(loadingAtom);
   const run = useRerender();
   const getNotes = async () => {
     try {
-      if (session?.user) {
-        setLoading(true);
+      if (session?.user && params.slug) {
         const res = await axios.get(
-          `/api/v1/note/get?userId=${session.user.id}`
+          `/api/v1/note/get/flag?userId=${session.user.id}&flag=${params.slug.replace(/^\w/, (char) => char.toUpperCase())}`
         );
         if (res.data.data) {
           setNotes(() => res.data.data);
-          setLoading(false);
         }
       }
     } catch (error) {
       console.log(error);
-      setLoading(false);
-
-      return;
     }
   };
 
@@ -39,10 +33,11 @@ export default function Home() {
 
   return (
     <div className="flex flex-wrap justify-start px-3 gap-3 mt-10 mx-auto">
-      {notes[0] &&
-        notes.map((note: NoteType) => {
-          return <Notes note={{ ...note }} key={note.id} />;
-        })}
+      {notes.length > 0
+        ? notes.map((note: NoteType) => {
+            return <Notes note={{ ...note }} key={note.id} />;
+          })
+        : "No notes yet"}
     </div>
   );
 }
