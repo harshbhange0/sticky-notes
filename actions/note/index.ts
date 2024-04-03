@@ -18,11 +18,10 @@ export const ApiResponse = ({
   message,
   code,
   type = "api",
-}: ApiResponseType): ErrorConstructor | NextResponse => {
+}: ApiResponseType): NextResponse => {
   if (type == "api") {
     return NextResponse.json({ data, message }, { status: code });
   }
-  throw new Error(message && message.toString());
 };
 
 /**
@@ -36,7 +35,9 @@ export const createNotes = async (data: NotesInputProps) => {
   try {
     const note = await db.notes.create({
       data: {
-        ...data,
+        title: data.title!,
+        content: data.content!,
+        userId: data.userId!,
         flag: "Public",
       },
     });
@@ -45,10 +46,9 @@ export const createNotes = async (data: NotesInputProps) => {
       return note;
     }
   } catch (error: any) {
-    return ApiResponse({
-      type: "Error",
-      message: "Failed to create note action/note./index.ts:58:1",
-      data: error,
+    return console.log({
+      errorLine: "Failed to create note action/note./index.ts:58:1",
+      error,
     });
   }
 };
