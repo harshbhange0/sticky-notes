@@ -3,8 +3,8 @@ import { loadingAtom, noteAtom } from "@/store/atoms";
 import { NoteType } from "@/types";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useCallback, useEffect } from "react";
+import { useRecoilState } from "recoil";
 import Notes from "./components/Notes";
 import { useRerender } from "@/store/hooks";
 
@@ -13,7 +13,7 @@ export default function Home(): React.ReactElement {
   const [notes, setNotes] = useRecoilState(noteAtom);
   const [loading, setLoading] = useRecoilState(loadingAtom);
   const run = useRerender();
-  const getNotes = async () => {
+  const getNotes = useCallback(async () => {
     try {
       if (session?.user) {
         setLoading(true);
@@ -31,12 +31,11 @@ export default function Home(): React.ReactElement {
 
       return;
     }
-  };
+  }, [session?.user]);
 
   useEffect(() => {
     getNotes();
   }, [status, run]);
-
   return (
     <div className="w-full px-3 flex justify-start flex-wrap gap-1 mt-10 mx-auto transition-all">
       {notes.length > 0 ? (

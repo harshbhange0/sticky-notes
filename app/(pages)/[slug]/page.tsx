@@ -1,5 +1,4 @@
 "use client";
-import { noteAtom } from "@/store/atoms";
 import { NoteType } from "@/types";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -7,8 +6,9 @@ import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import Notes from "@/app/components/Notes";
 import { useRerender } from "@/store/hooks";
+import { noteAtom } from "@/store/atoms";
 
-export default function page({
+export default function Page({
   params,
 }: {
   params: { slug: string };
@@ -16,14 +16,18 @@ export default function page({
   const { status, data: session } = useSession();
   const [notes, setNotes] = useRecoilState(noteAtom);
   const run = useRerender();
+
   const getNotesByFlag = async () => {
     try {
       if (session?.user && params.slug) {
         const res = await axios.get(
-          `/api/v1/note/get/flag?userId=${session.user.id}&flag=${params.slug.replace(/^\w/, (char) => char.toUpperCase())}`
+          `/api/v1/note/get/flag?userId=${session.user.id}&flag=${params.slug.replace(
+            /^\w/,
+            (char) => char.toUpperCase()
+          )}`
         );
         if (res.data.data) {
-          setNotes(() => res.data.data);
+          setNotes(res.data.data);
         }
       }
     } catch (error) {

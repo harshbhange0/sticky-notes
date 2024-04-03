@@ -2,7 +2,6 @@ import { Provider } from "@/Provider";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
-import AppBar from "./components/appbar";
 import Sidebar from "./components/sidebar";
 import CreateNots from "./components/CreateNots";
 import { getServerSession } from "next-auth/next";
@@ -35,11 +34,15 @@ export default async function RootLayout({
         <Provider>
           <RecoilContextProvider>
             <Sidebar>
-              {session && (
+              {session ? (
                 <main className="w-full flex flex-col items-center h-full">
                   <CreateNots />
                   {children}
                 </main>
+              ) : (
+                <div className="h-[50vh] grid place-items-center w-full">
+                  <p className=" w-full text-center">User Not Sign In!</p>
+                </div>
               )}
             </Sidebar>
           </RecoilContextProvider>
