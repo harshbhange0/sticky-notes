@@ -36,12 +36,16 @@ export default function page({
   }, [status, run]);
 
   return (
-    <div className="flex flex-wrap justify-start px-3 gap-3 mt-10 mx-auto">
-      {notes.length > 0
-        ? notes.map((note: NoteType) => {
-            return <Notes note={{ ...note }} key={note.id} />;
-          })
-        : "No notes yet"}
+    <div className="w-full px-3 flex justify-start flex-wrap gap-1 mt-10 mx-auto transition-all">
+      {notes.length > 0 ? (
+        notes.map((note: NoteType) => {
+          return <Notes note={{ ...note }} key={note.id} />;
+        })
+      ) : (
+        <div className="h-[40vh] grid place-items-center w-full">
+          <p className=" w-full text-center">No notes found!</p>
+        </div>
+      )}
     </div>
   );
 }

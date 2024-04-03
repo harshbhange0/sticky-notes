@@ -48,7 +48,7 @@ export default function CreateNots(): React.ReactElement {
   };
   return (
     <div
-      className={`${isOpen ? "h-auto" : "h-[70px]"} flex flex-col gap-4 sm:mx-auto mt-10  mx-10  sm:w-1/2 border p-4 rounded-md overflow-hidden shadow-sm hover:shadow-md transition-all`}
+      className={`${isOpen ? "h-auto" : "h-[70px]"} flex flex-col gap-4 sm:mx-auto mt-10 mx-auto md:mx-10 w-[90%] md:w-[80%] lg:w-1/2 border p-4 rounded-md overflow-hidden shadow-sm hover:shadow-md transition-all`}
     >
       <input
         onFocus={(e) => setIsOpen(isOpen !== true && !isOpen)}
@@ -66,12 +66,16 @@ export default function CreateNots(): React.ReactElement {
         rows={2}
       />
       <div className="w-1/2 grid grid-cols-2 mx-auto">
-        <button className="" onClick={addNotes}>
-          <CiSaveDown2 className="mx-auto text-xl text-green-500 hover:text-green-600 transition" />
-        </button>
-        <button onClick={cancel}>
-          <MdCancelPresentation className="mx-auto text-xl text-gray-300 hover:text-gray-600 transition" />
-        </button>
+        <div className="tooltip tooltip-top" data-tip="Save  Note">
+          <button className="" onClick={addNotes}>
+            <CiSaveDown2 className="mx-auto text-xl text-green-500 hover:text-green-600 transition" />
+          </button>
+        </div>
+        <div className="tooltip tooltip-top" data-tip="Cancel">
+          <button onClick={cancel}>
+            <MdCancelPresentation className="mx-auto text-xl text-gray-300 hover:text-gray-600 transition" />
+          </button>
+        </div>
       </div>
     </div>
   );

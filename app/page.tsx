@@ -8,7 +8,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import Notes from "./components/Notes";
 import { useRerender } from "@/store/hooks";
 
-export default function Home(): React.ReactElement{
+export default function Home(): React.ReactElement {
   const { status, data: session } = useSession();
   const [notes, setNotes] = useRecoilState(noteAtom);
   const [loading, setLoading] = useRecoilState(loadingAtom);
@@ -38,11 +38,16 @@ export default function Home(): React.ReactElement{
   }, [status, run]);
 
   return (
-    <div className="flex flex-wrap justify-start px-3 gap-3 mt-10 mx-auto">
-      {notes[0] &&
+    <div className="w-full px-3 flex justify-start flex-wrap gap-1 mt-10 mx-auto transition-all">
+      {notes.length > 0 ? (
         notes.map((note: NoteType) => {
           return <Notes note={{ ...note }} key={note.id} />;
-        })}
+        })
+      ) : (
+        <div className="h-[40vh] grid place-items-center w-full">
+          <p className=" w-full text-center">No notes found!</p>
+        </div>
+      )}
     </div>
   );
 }

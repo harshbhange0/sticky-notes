@@ -8,6 +8,7 @@ import CreateNots from "./components/CreateNots";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth.config";
 import RecoilContextProvider from "@/Provider/recoil";
+import Navbar from "./components/Navbar";
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
@@ -33,16 +34,14 @@ export default async function RootLayout({
         <Toaster position="top-left" />
         <Provider>
           <RecoilContextProvider>
-            <AppBar />
-            {session && (
-              <section className="w-full flex flex-col sm:flex-row min-h-[calc(100vh-57px)]">
-                <Sidebar className={" hidden sm:flex sm:basis-[30%]"} />
-                <main className="w-full mx-auto">
+            <Sidebar>
+              {session && (
+                <main className="w-full flex flex-col items-center h-full">
                   <CreateNots />
                   {children}
                 </main>
-              </section>
-            )}
+              )}
+            </Sidebar>
           </RecoilContextProvider>
         </Provider>
       </body>

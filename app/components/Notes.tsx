@@ -10,9 +10,9 @@ export default function Notes({ note }: { note: NoteType }): ReactNode {
   };
 
   return (
-    <>
+    <div className="mb-auto h-auto">
       <div
-        className="min-w-[200px] max-w-[300px] flex flex-col gap-2 p-4 border rounded-md cursor-pointer break-words h-full"
+        className="min-w-[250px] max-w-[350px] h-auto flex flex-col gap-2 p-4 border rounded-md cursor-pointer hover:shadow-md shadow-sm transition-all break-words mb-auto"
         onClick={() =>
           // @ts-ignore
           document?.getElementById(note.id).showModal()
@@ -41,6 +41,6 @@ export default function Notes({ note }: { note: NoteType }): ReactNode {
           onUpdate: handleUpdate,
         }}
       />
-    </>
+    </div>
   );
 }
