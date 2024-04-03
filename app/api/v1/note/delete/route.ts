@@ -1,6 +1,6 @@
 import { ApiResponse, getParamValue } from "@/actions/note";
 import { db } from "@/lib/db";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(req: NextRequest) {
   const id = await getParamValue("id", req);
@@ -14,12 +14,13 @@ export async function DELETE(req: NextRequest) {
           code: 404,
         });
       }
-      return ApiResponse({
-        type: "api",
-        message: "note Deleted ",
-        code: 201,
-        data: deleteNots.id,
-      });
+      return NextResponse.json(
+        {
+          message: "note Deleted ",
+          data: deleteNots.id,
+        },
+        { status: 201 }
+      );
     } catch (error) {
       console.log({ error: "api/delete/route.ts:17:1" });
       return ApiResponse({
