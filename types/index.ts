@@ -28,7 +28,7 @@ export type NotesType = NoteType[] | [];
 
 export type NotesInputProps = z.infer<typeof NotesInputPropsSchema>;
 export type GetNotesType = "userId" | "id";
-export type NoteStatusType = "Public" | "Archived" | "Trashed" | null;
+export type NoteStatusType = "Public" | "Archived" | "Trashed"
 export type GetNotesByStatusType = NoteStatusType;
 export interface ApiResponseType {
   data?: any;

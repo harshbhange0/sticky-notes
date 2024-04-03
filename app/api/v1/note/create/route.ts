@@ -1,6 +1,6 @@
 import { ApiResponse, createNotes } from "@/actions/note";
 import { NotesInputPropsSchema } from "@/types";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const input = NotesInputPropsSchema.safeParse(await req.json());
@@ -8,18 +8,16 @@ export async function POST(req: NextRequest) {
     return ApiResponse({
       type: "api",
       data: null,
-      message: input.error,
+      message: input,
       code: 400,
     });
   }
   try {
     const note = await createNotes(input.data);
-    return ApiResponse({
-      type: "api",
+    return NextResponse.json({
       data: note,
       message: "Note created",
-      code: 200,
-    });
+    },{status:200});
   } catch (error: any) {
     console.log(error);
     return ApiResponse({

@@ -12,7 +12,7 @@ export async function PUT(req: NextRequest) {
         return ApiResponse({
           type: "api",
           data: null,
-          message: input.error,
+          message: input,
           code: 400,
         });
       }

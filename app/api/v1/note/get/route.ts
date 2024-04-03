@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
       const notes = await db.notes.findMany({
         where: {
           userId: id,
-          flag: "Public" || "Null",
+          flag: "Public",
         },
       });
       if (notes.length < 0) {
