@@ -37,7 +37,11 @@ export default async function RootLayout({
                 <main className="w-full flex flex-col items-center h-full">
                   <CreateNots />
                   {children}
-                  <Analytics />
+                  <Analytics
+                    beforeSend={(e) => {
+                      return e;
+                    }}
+                  />
                 </main>
               ) : (
                 <div className="h-[50vh] grid place-items-center w-full">
