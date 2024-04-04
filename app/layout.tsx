@@ -37,8 +37,6 @@ export default async function RootLayout({
                 <main className="w-full flex flex-col items-center h-full">
                   <CreateNots />
                   {children}
-            
-               
                 </main>
               ) : (
                 <div className="h-[50vh] grid place-items-center w-full">
