@@ -7,6 +7,7 @@ import { useRecoilState } from "recoil";
 import Notes from "@/app/components/Notes";
 import { useRerender } from "@/store/hooks";
 import { noteAtom } from "@/store/atoms";
+import { flag } from "@prisma/client";
 
 export default function Page({
   params,
@@ -47,7 +48,7 @@ export default function Page({
         })
       ) : (
         <div className="h-[40vh] grid place-items-center w-full">
-          <p className=" w-full text-center">No notes found!</p>
+          <p className=" w-full text-center">No {params.slug} notes found! </p>
         </div>
       )}
     </div>

@@ -7,7 +7,7 @@ import CreateNots from "./components/CreateNots";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth.config";
 import RecoilContextProvider from "@/Provider/recoil";
-import Navbar from "./components/Navbar";
+import { Analytics } from "@vercel/analytics/react";
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
@@ -25,7 +25,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
-  console.log(session);
 
   return (
     <html lang="en">
@@ -38,6 +37,7 @@ export default async function RootLayout({
                 <main className="w-full flex flex-col items-center h-full">
                   <CreateNots />
                   {children}
+                  <Analytics />
                 </main>
               ) : (
                 <div className="h-[50vh] grid place-items-center w-full">
